@@ -6,16 +6,21 @@
     <!-- <h1>{{ username }}</h1> -->
     <h1>{{ count }}</h1>
     <!-- <a @click="getclick">click me</a> -->
-    <p>{{username}}</p>
+    <!-- <p>{{username}}</p> -->
     <input name="username" type="text"  placeholder="请输入用户名" v-model="username">
     <br>
     <input name="pwd" type="text" placeholder="请输入密码" v-model="pwd">
     <p>消息是: {{ username }}</p>
-    <button v-on:click="postReq()">登录</button>
-    <router-link to='/signup'>
-    <button>没有账户请注册</button>
-    </router-link>
-    <!-- <a @click="postReq">click me</a> -->
+    <a @click="postReq"></a> 
+    <router-link   
+    :to="{  
+        path: '/' 
+    }">  
+    <button type="button">跳转</button> </router-link>
+
+
+    
+ 
   </main-layout> 
   <!-- </div> -->
 </template>
@@ -33,8 +38,8 @@ export default {
   //el: '#hello',
   data() {
     return {
-      count:"",
-      num1: ""
+      username:"",
+      pwd: ""
     }
   },
   methods: {

@@ -16,6 +16,7 @@ const app = new Vue({
     }
   },
   render (h) {
+    console.log("view",this.ViewComponent)
     return h(this.ViewComponent)
   }
 })

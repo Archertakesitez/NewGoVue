@@ -3,9 +3,9 @@
   <div class="container">
     <ul>
       <li>
-        <v-link href="/">Login</v-link>
+        <v-link href="/count">登录</v-link>
         <br>
-        <v-link href="/signup">Signup</v-link>
+        <v-link href="/signup">无账号请注册</v-link>
       </li>
     </ul>
 
