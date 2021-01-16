@@ -11,12 +11,9 @@
     <br>
     <input name="pwd" type="text" placeholder="请输入密码" v-model="pwd">
     <p>消息是: {{ username }}</p>
-    <a @click="postReq"></a> 
-    <router-link   
-    :to="{  
-        path: '/' 
-    }">  
-    <button type="button">跳转</button> </router-link>
+    <a @click="postReq"><button type="button">跳转</button> </a> 
+     
+    
 
 
     
