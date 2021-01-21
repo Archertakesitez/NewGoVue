@@ -11,7 +11,7 @@
 
 <script>
   
-  //const axios = require('axios');
+  const axios = require('axios');
   export default {
     components: {
       
@@ -27,6 +27,21 @@
       pwd: ""
     }
   },methods: {
+    requestSent(data){
+     axios({
+       method:"POST",
+       url:"http://localhost:8080/signup",
+       data: data,
+        headers: {
+            "content-type": "text/plain"
+                    }
+     }).then(result => {
+        //this.count=result.data
+        this.message=result.data
+     }
+     )
+     console.log(data)
+   },
       saveUser(){
           var data={
         "username":this.username,
