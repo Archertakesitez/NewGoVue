@@ -15,8 +15,8 @@ import (
 var db *sql.DB
 var err error 
 type User struct {
-	Username string //`json:"Username"`
-	pwd      string //`json:"pwd"`
+	username string `json:"Username"`
+	pwd      string `json:"pwd"`
 }
 type NumOne struct{
 	Num1 float64 `json:"num1"`
@@ -45,11 +45,13 @@ func login(w http.ResponseWriter, r *http.Request){
 }
 func saveUser(w http.ResponseWriter, r *http.Request){
 	decoder := json.NewDecoder(r.Body)
+	//fmt.Println(decoder)
 	var(
 		user User
 	)
 	decoder.Decode(&user)
-	message := saveIn(user.Username, user.pwd)
+	fmt.Println(user)
+	message := saveIn(user.username, user.pwd)
 	data,_:=json.Marshal(message)
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Access-Control-Allow-Headers","*")
@@ -58,12 +60,13 @@ func saveUser(w http.ResponseWriter, r *http.Request){
 }
 
 func saveIn(name string, pwd string) string {
+	str:=""
 	if (name=="")||(pwd==""){
-		return "username and password cannot be empty"
+		str="username and password cannot be empty"
 	}else if (strings.ContainsAny(name,"%<>/\\")||strings.ContainsAny(pwd,"%<>/\\")){
-		return "username and password caannot contain %<>/\\"
+		str="username and password caannot contain %<>/\\"
 	}else if (len(name)>20)||(len(pwd)>20){
-		return "username and password cannot exceed 20 characters long"
+		str= "username and password cannot exceed 20 characters long"
 	}else{
 		insert, err := db.Exec("insert into User(username, pwd, count) values(?, ?, 1)",name, pwd)
 		//insert, err:= db.Exec("insert into finalTable(username, times) values("+"hehe"+",1)")
@@ -72,8 +75,9 @@ func saveIn(name string, pwd string) string {
 				//insert
 				insert, err)
 		}
-		return "注册成功！"
+		str= "注册成功！"
 	}
+	return str
 
 }
 
