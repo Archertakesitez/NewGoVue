@@ -15,8 +15,8 @@ import (
 var db *sql.DB
 var err error 
 type User struct {
-	username string `json:"Username"`
-	pwd      string `json:"pwd"`
+	Username string `json:"username"`
+	Pwd      string `json:"pwd"`
 }
 type NumOne struct{
 	Num1 float64 `json:"num1"`
@@ -44,14 +44,17 @@ func login(w http.ResponseWriter, r *http.Request){
 		w.Write(data)
 }
 func saveUser(w http.ResponseWriter, r *http.Request){
-	decoder := json.NewDecoder(r.Body)
+	decoder:= json.NewDecoder(r.Body)
 	//fmt.Println(decoder)
+	if err!=nil{
+		fmt.Println(err)
+	}
 	var(
 		user User
 	)
 	decoder.Decode(&user)
 	fmt.Println(user)
-	message := saveIn(user.username, user.pwd)
+	message := saveIn(user.Username, user.Pwd)
 	data,_:=json.Marshal(message)
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Access-Control-Allow-Headers","*")
