@@ -1,5 +1,5 @@
 import Vue from 'vue'
-//import App from './Layouts/App.vue'
+import App from './Layouts/App.vue'
 ///import routes from './routes'
 import VueRouter from 'vue-router'
 import Login from './pages/Login.vue'
@@ -41,7 +41,7 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   router,
-  render: h => h(Login)
+  render: h => h(App)
 }).$mount('#app')
 /**window.addEventListener('popstate', () => {
   app.currentRoute = window.location.pathname
