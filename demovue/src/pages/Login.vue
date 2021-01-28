@@ -1,33 +1,42 @@
 
 <template>
 
-  <!-- <div id="app"> -->
-  <main-layout>
+  <div id="app">
+  <!-- <main-layout> -->
     <!-- <h1>{{ username }}</h1> -->
-    <h1>{{ count }}</h1>
+    <h1>{{ message }}</h1>
+    <router-link to="Count">Go to Count</router-link>
     <!-- <a @click="getclick">click me</a> -->
     <!-- <p>{{username}}</p> -->
     <input name="username" type="text"  placeholder="请输入用户名" v-model="username">
     <br>
     <input name="pwd" type="text" placeholder="请输入密码" v-model="pwd">
-    <p>消息是: {{ username }}</p>
-    <a @click="postReq"><button type="button">跳转</button> </a> 
+    <br>
+    
+    <a href="/count?id={{">登录</a>
+    <br>
+
+    <a href="/signup">无账号请注册</a>
+    <br>
+    <a @click="postReq">跳转 </a> 
      
     
 
 
     
  
-  </main-layout> 
-  <!-- </div> -->
+  <!-- </main-layout> -->
+  </div>
 </template>
 
 <script>
-import MainLayout from '../Layouts/App.vue'
+//import MainLayout from '../Layouts/App.vue'
 const axios = require('axios');
+
 export default {
   components:{
-    MainLayout
+    //MainLayout
+    
   },
   name: 'Login',
   mounted() {
@@ -36,7 +45,8 @@ export default {
   data() {
     return {
       username:"",
-      pwd: ""
+      pwd: "",
+      message:"请登录"
     }
   },
   methods: {
@@ -58,7 +68,7 @@ export default {
                     }
      }).then(result => {
         //this.count=result.data
-        this.count=result.data
+        this.message=result.data
      }
      )
      console.log(data)

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  
+
   const axios = require('axios');
   export default {
     components: {
@@ -27,7 +27,16 @@
       pwd: ""
     }
   },methods: {
+    changeOne(){
+        //const vs = this;
+        if(this.message=="注册成功！"){
+            this.message="nijuedene"
+            window.location.replace("/count?id=123")
+        }
+         console.log("hello")
+    },
     requestSent(data){
+    //that.$router.push({path:'/count'})
      axios({
        method:"POST",
        url:"http://localhost:8080/signup",
@@ -38,8 +47,10 @@
      }).then(result => {
         //this.count=result.data
         this.message=result.data
+        this.changeOne();
      }
      )
+     //this.changeOne();
      console.log(data)
    },
       saveUser(){

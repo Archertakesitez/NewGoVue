@@ -61,9 +61,23 @@ func saveUser(w http.ResponseWriter, r *http.Request){
 	w.Write(data)
 	fmt.Println(user)
 }
-
+func queryName(name string)int{
+	var timeCount int
+	sqlStr:= "select count from user where username=?;"
+	err = db.QueryRow(sqlStr, name).Scan(&timeCount)
+	switch{
+	case err==sql.ErrNoRows:
+		return -1
+	case err != nil:
+		return -10
+	default:
+		return timeCount
+	}
+}
 func saveIn(name string, pwd string) string {
 	str:=""
+	timesR:=queryName(name)
+	if timesR == -1 {//no same name found
 	if (name=="")||(pwd==""){
 		str="username and password cannot be empty"
 	}else if (strings.ContainsAny(name,"%<>/\\")||strings.ContainsAny(pwd,"%<>/\\")){
@@ -80,8 +94,11 @@ func saveIn(name string, pwd string) string {
 		}
 		str= "注册成功！"
 	}
+	
+	}else{
+		str="该用户名已被占用"
+	}
 	return str
-
 }
 
 func main() {

@@ -1,8 +1,12 @@
 import Vue from 'vue'
 //import App from './Layouts/App.vue'
-import routes from './routes'
-
-const app = new Vue({
+///import routes from './routes'
+import VueRouter from 'vue-router'
+import Login from './pages/Login.vue'
+import Count from './pages/Count.vue'
+import Signup from './pages/Signup.vue'
+Vue.use(VueRouter)
+/** const app = new Vue({
   el: '#app',
   data: {
     currentRoute: window.location.pathname
@@ -21,6 +25,24 @@ const app = new Vue({
   }
 })
 
+window.addEventListener('popstate', () => {
+  app.currentRoute = window.location.pathname
+})
+**/
+const routes = [
+  { path: '/', component: Login },
+  { path: '/signup', component: Signup },
+  { path: '/count', component: Count }
+]
+const router = new VueRouter({
+  mode: 'history',
+  routes // short for `routes: routes`
+})
+const app = new Vue({
+  el: '#app',
+  router,
+  render: h => h(Login)
+}).$mount('#app')
 window.addEventListener('popstate', () => {
   app.currentRoute = window.location.pathname
 })
