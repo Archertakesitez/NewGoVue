@@ -35,14 +35,15 @@ const routes = [
   { path: '/count', component: Count }
 ]
 const router = new VueRouter({
-  mode: 'history',
+  //mode: 'history',
   routes // short for `routes: routes`
 })
-const app = new Vue({
+new Vue({
   el: '#app',
   router,
   render: h => h(Login)
 }).$mount('#app')
-window.addEventListener('popstate', () => {
+/**window.addEventListener('popstate', () => {
   app.currentRoute = window.location.pathname
 })
+**/

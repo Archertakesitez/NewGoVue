@@ -5,7 +5,7 @@
   <!-- <main-layout> -->
     <!-- <h1>{{ username }}</h1> -->
     <h1>{{ message }}</h1>
-    <router-link to="Count">Go to Count</router-link>
+    <router-link to="/count">Go to Count</router-link>
     <!-- <a @click="getclick">click me</a> -->
     <!-- <p>{{username}}</p> -->
     <input name="username" type="text"  placeholder="请输入用户名" v-model="username">
