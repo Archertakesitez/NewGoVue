@@ -5,7 +5,7 @@
   <!-- <main-layout> -->
     <!-- <h1>{{ username }}</h1> -->
     <h1>{{ message }}</h1>
-    <router-link to="/count">Go to Count</router-link>
+  
     <!-- <a @click="getclick">click me</a> -->
     <!-- <p>{{username}}</p> -->
     <input name="username" type="text"  placeholder="请输入用户名" v-model="username">
@@ -13,19 +13,20 @@
     <input name="pwd" type="text" placeholder="请输入密码" v-model="pwd">
     <br>
     
-    <a href="/count?id={{">登录</a>
+    <a @click="postReq">登录</a>
     <br>
 
-    <a href="/signup">无账号请注册</a>
+    <router-link to="/signup">无账号请注册</router-link>
     <br>
-    <a @click="postReq">跳转 </a> 
-     
+    
+    <router-view></router-view>
     
 
 
     
  
   <!-- </main-layout> -->
+
   </div>
 </template>
 
@@ -50,6 +51,15 @@ export default {
     }
   },
   methods: {
+    changeOne(data){
+        //const vs = this;
+        if(this.message=="登录成功！跳转中..."){
+            //this.message="nijuedene"
+            this.$router.push({path: '/count', query: {username: this.username, count:data.count}});
+        }
+         console.log("hello")
+    },
+    
    // getclick(){
       //axios
        // .get('http://localhost:8080/')
@@ -68,7 +78,12 @@ export default {
                     }
      }).then(result => {
         //this.count=result.data
-        this.message=result.data
+        this.message=result.data.message
+        console.log(result.data.message)
+        var data={
+        "count":result.data.count
+      }
+        this.changeOne(data);
      }
      )
      console.log(data)
@@ -105,6 +120,14 @@ li {
   margin: 0 10px;
 }
 a {
+  text-decoration: none;
+  cursor:pointer;
+
+
   color: #42b983;
+}
+.router-link-active {    
+  text-decoration: none;
+  
 }
 </style>

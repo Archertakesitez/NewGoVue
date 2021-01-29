@@ -30,8 +30,8 @@
     changeOne(){
         //const vs = this;
         if(this.message=="注册成功！"){
-            this.message="nijuedene"
-            window.location.replace("/count?id=123")
+            //this.message="nijuedene"
+            window.location.replace("/")
         }
          console.log("hello")
     },

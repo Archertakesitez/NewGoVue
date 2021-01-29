@@ -14,13 +14,15 @@ import (
 )
 var db *sql.DB
 var err error 
+type forLogin struct{
+	Message string `json:"message"`
+	Count int `json:"count"`
+}
 type User struct {
 	Username string `json:"username"`
 	Pwd      string `json:"pwd"`
 }
-type NumOne struct{
-	Num1 float64 `json:"num1"`
-}
+
 //init database..
 func initDB(){
 	db, err = sql.Open("mysql", "erchizhang:123456@tcp(127.0.0.1)/Trail1")
@@ -32,16 +34,21 @@ func login(w http.ResponseWriter, r *http.Request){
 	decoder := json.NewDecoder(r.Body)
 		fmt.Println(decoder)
 		var(
-			numsData NumOne
+			user User 
 		)
-		decoder.Decode(&numsData)
-		fmt.Println(numsData)
-		numsData.Num1++
-		
-		data, _ := json.Marshal(numsData.Num1)
+		decoder.Decode(&user)
+		msg:=saveLogIn(user.Username, user.Pwd)
+		found:=queryName(user.Username)
+		loginPur := forLogin{
+			Message:   msg,
+			Count: found,
+		}
+		data, _ := json.Marshal(loginPur)
+
 		w.Header().Add("Access-Control-Allow-Origin", "*")
 		w.Header().Add("Access-Control-Allow-Headers","*")
 		w.Write(data)
+		fmt.Println(user)
 }
 func saveUser(w http.ResponseWriter, r *http.Request){
 	decoder:= json.NewDecoder(r.Body)
@@ -60,6 +67,42 @@ func saveUser(w http.ResponseWriter, r *http.Request){
 	w.Header().Add("Access-Control-Allow-Headers","*")
 	w.Write(data)
 	fmt.Println(user)
+}
+func verifyPwd(name string, pwd string) bool{
+	verified:=false
+	var getPwd string
+	sqlStr:="select pwd from user where username=?;"
+	err = db.QueryRow(sqlStr, name).Scan(&getPwd)
+	if err!=nil{
+		fmt.Println("verifyPwdError")
+	}else{
+		if getPwd==pwd {
+			verified=true
+		}else{
+			verified=false
+		}
+	}
+	return verified
+}
+func saveLogIn(name string, pwd string) string{
+	found:=queryName(name)
+	verified:=verifyPwd(name,pwd)
+	str:=""
+	if (name=="")||(pwd==""){
+		str="用户名或密码不能为空"
+	}else{
+		if found == -1 {
+			str="该用户名不存在"
+		}else{
+			if verified==true{
+				str="登录成功！跳转中..."
+				db.Exec("update User set count=? where username=?",found+1,name)
+			}else{
+				str="密码不正确"
+			}
+		}
+	}
+	return str
 }
 func queryName(name string)int{
 	var timeCount int
